@@ -51,12 +51,7 @@ def extract_video_id(url):
 @st.cache_resource
 def build_vector_store(video_id):
     try:
-        ytt_api = YouTubeTranscriptApi(
-                    proxy_config=WebshareProxyConfig(
-                        proxy_username="cynupwmo",
-                        proxy_password="v3v3z8xkzmy1",
-                    )
-                )
+        ytt_api = YouTubeTranscriptApi()
         transcript_list = ytt_api.fetch(video_id, languages=['en'])
         transcript = " ".join(chunk.text for chunk in transcript_list)
         splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=100)
