@@ -67,6 +67,8 @@ st.title("🎥 YouTube Video Chatbot")
 
 # Input for YouTube URL
 youtube_url = st.text_input("Enter YouTube Video URL or Video ID:", placeholder="https://www.youtube.com/watch?v=...")
+st.session_state.setdefault("messages", [])
+
 
 if youtube_url:
     video_id = extract_video_id(youtube_url)
