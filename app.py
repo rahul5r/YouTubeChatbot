@@ -8,7 +8,9 @@ from langchain_core.prompts import PromptTemplate
 from langchain_core.runnables import RunnableParallel, RunnablePassthrough
 from langchain_core.output_parsers import StrOutputParser
 from langchain_google_genai import ChatGoogleGenerativeAI
+from youtube_transcript_api.proxies import WebshareProxyConfig
 import re
+import os
 
 # Load environment variables
 load_dotenv()
@@ -49,7 +51,12 @@ def extract_video_id(url):
 @st.cache_resource
 def build_vector_store(video_id):
     try:
-        ytt_api = YouTubeTranscriptApi()
+        ytt_api = YouTubeTranscriptApi(
+                    proxy_config=WebshareProxyConfig(
+                        proxy_username="cynupwmo",
+                        proxy_password="v3v3z8xkzmy1",
+                    )
+                )
         transcript_list = ytt_api.fetch(video_id, languages=['en'])
         transcript = " ".join(chunk.text for chunk in transcript_list)
         splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=100)
